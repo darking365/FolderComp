@@ -292,8 +292,8 @@ namespace FolderCompare
                 if (fc.filecomps != null)
                 {
                     layer++;
-                    preLtPath = layer == 1 ? fc.ltpath : Path.Combine(preLtPath, fc.lt.name);
-                    preRtPath = layer == 1 ? fc.rtpath : Path.Combine(preRtPath, fc.rt.name);
+                    preLtPath = layer == 1 ? fc.ltpath : Path.Combine(preLtPath, fc.lt!=null?fc.lt.name:"");
+                    preRtPath = layer == 1 ? fc.rtpath : Path.Combine(preRtPath, fc.rt!=null?fc.rt.name:"");
 
                     foreach (var f in fc.filecomps)
                     {

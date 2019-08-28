@@ -58,17 +58,21 @@ namespace FolderCompare
         private void btn_openfile_Click(object sender, EventArgs e)
         {
 
-            try
+            string fileName = lbl_fileName.Text;
+            Task.Factory.StartNew(() =>
             {
-                Process p = new Process();
-                p.StartInfo.FileName = "Excel";
-                p.StartInfo.Arguments = lbl_fileName.Text;
-                p.Start();
-            }
-            catch (Exception ex)
-            {
-                ex.Message.Logger();
-            }
+                try
+                {
+                    Process p = new Process();
+                    p.StartInfo.FileName = "Excel";
+                    p.StartInfo.Arguments = fileName;
+                    p.Start();
+                }
+                catch (Exception ex)
+                {
+                    ex.Message.Logger();
+                }
+            });
         }
 
         private void btn_selL_Click(object sender, EventArgs e)
@@ -156,7 +160,6 @@ namespace FolderCompare
             string outFolder = string.Empty;
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
-
             {
 
                 lFolder = txt_lFolder.Text.Trim();
