@@ -335,7 +335,7 @@ namespace FolderCompare
         public static bool IsValid(this string value)
         {
             bool isValid = false;
-            if (!string.IsNullOrEmpty(value.Trim()))
+            if (!string.IsNullOrEmpty(value.Trim()) && Directory.Exists(value))
             {
                 isValid = true;
             }
