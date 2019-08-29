@@ -28,9 +28,11 @@ namespace FolderCompare
         WinForm.FolderBrowserDialog folder_left = new WinForm.FolderBrowserDialog();
         WinForm.FolderBrowserDialog folder_right = new WinForm.FolderBrowserDialog();
         WinForm.FolderBrowserDialog folder_output = new WinForm.FolderBrowserDialog();
+
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -51,7 +53,10 @@ namespace FolderCompare
             {
                 bg.DoWork += Bg_DoWork;
                 bg.RunWorkerCompleted += Bg_RunWorkerCompleted;
-                bg.RunWorkerAsync();
+                if (!bg.IsBusy)
+                {
+                    bg.RunWorkerAsync();
+                }
             }
         }
 
@@ -108,6 +113,7 @@ namespace FolderCompare
 
         private void Bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            string msg = "completed";
             if (e.Result != null)
             {
                 //generate the excel
@@ -134,16 +140,19 @@ namespace FolderCompare
                         Util.UpdateAppConfig("lfolder", lFolder);
                         Util.UpdateAppConfig("rfolder", rFolder);
                         Util.UpdateAppConfig("ofolder", outFolder);
-                        MessageBox.Show("completed");
                     }
                 }
                 else
                 {
-                    string msg = "get model from xml file failed";
-                    msg.Logger();
+                    msg = "get model from xml file failed";
                 }
-
             }
+            else
+            {
+                msg = "generate xml file failed";
+            }
+            msg.Logger();
+            MessageBox.Show(msg);
         }
 
         private void Bg_DoWork(object sender, DoWorkEventArgs e)
@@ -202,8 +211,10 @@ namespace FolderCompare
                     try
                     {
                         bc.Start();
-                        e.Result = outFolder;
-                        Thread.Sleep(1000);
+                        if (CheckFileExists(outFolder))
+                        {
+                            e.Result = outFolder;
+                        }                        
                     }
                     catch (Exception ex)
                     {
@@ -211,6 +222,24 @@ namespace FolderCompare
                     }
                 }
             }
+        }
+
+        public bool CheckFileExists(string filePath)
+        {
+            bool isExists = false;
+            int counter = 0;
+            do
+            {
+                counter++;
+                if (counter == 500)
+                {
+                    break;
+                }
+                isExists = File.Exists(filePath);
+                Thread.Sleep(200);
+            } while (!isExists);
+
+            return isExists;
         }
     }
 }
