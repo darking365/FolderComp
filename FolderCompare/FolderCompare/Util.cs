@@ -186,7 +186,7 @@ namespace FolderCompare
                 cellStyle.VerticalAlignment = VerticalAlignment.Center;
                 IFont font = workBook.CreateFont();
                 font.Boldweight = (Int16)FontBoldWeight.Bold;
-                font.FontHeightInPoints = 18;
+                font.FontHeightInPoints = 12;
                 cellStyle.SetFont(font);
                 //header settings
                 IRow header = sheet.CreateRow(0);
@@ -282,50 +282,47 @@ namespace FolderCompare
             int layer = 0;
             string preLtPath = string.Empty;
             string preRtPath = string.Empty;
-            return ProcessFolderComp(report.foldercomp, lst, layer, preLtPath, preRtPath);
+            
+            return ProcessFolderComp(report.foldercomps, lst, layer, preLtPath, preRtPath);
         }
 
-        private static List<Level> ProcessFolderComp(foldercomp fc, List<Level> lst, int layer, string preLtPath, string preRtPath)
+        private static List<Level> ProcessFolderComp(List<foldercomp> folders, List<Level> lst, int layer, string preLtPath, string preRtPath)
         {
-            if (fc != null)
+            foreach (var fc in folders)
             {
-                if (fc.filecomps != null)
-                {
-                    layer++;
-                    preLtPath = layer == 1 ? fc.ltpath : Path.Combine(preLtPath, fc.lt!=null?fc.lt.name:"");
-                    preRtPath = layer == 1 ? fc.rtpath : Path.Combine(preRtPath, fc.rt!=null?fc.rt.name:"");
+                layer++;
+                preLtPath = layer == 1 ? fc.ltpath : Path.Combine(preLtPath, fc.lt != null ? fc.lt.name : "");
+                preRtPath = layer == 1 ? fc.rtpath : Path.Combine(preRtPath, fc.rt != null ? fc.rt.name : "");
 
-                    foreach (var f in fc.filecomps)
-                    {
-                        Level level = new Level() { Layer = layer, LtPath = preLtPath, RtPath = preRtPath };
-                        if (f.lt != null)
-                        {
-                            Node lnode = new Node
-                            {
-                                Path = preLtPath,
-                                FileName = f.lt.name,
-                                Result = f.status
-                            };
-                            level.LeftNode = lnode;
-                        }
-                        if (f.rt != null)
-                        {
-                            Node rnode = new Node
-                            {
-                                Path = preRtPath,
-                                FileName = f.rt.name,
-                                Result = f.status
-                            };
-                            level.RightNode = rnode;
-                        }
-                        lst.Add(level);
-                    }
-                }
-                if (fc.FolderComp != null)
+                foreach (var f in fc.filecomps)
                 {
-                    ProcessFolderComp(fc.FolderComp, lst, layer, preLtPath, preRtPath);
+                    Level level = new Level() { Layer = layer, LtPath = preLtPath, RtPath = preRtPath };
+                    if (f.lt != null)
+                    {
+                        Node lnode = new Node
+                        {
+                            Path = preLtPath,
+                            FileName = f.lt.name,
+                            Result = f.status
+                        };
+                        level.LeftNode = lnode;
+                    }
+                    if (f.rt != null)
+                    {
+                        Node rnode = new Node
+                        {
+                            Path = preRtPath,
+                            FileName = f.rt.name,
+                            Result = f.status
+                        };
+                        level.RightNode = rnode;
+                    }
+                    lst.Add(level);
                 }
+
+                ProcessFolderComp(fc.foldercomps, lst, layer, preLtPath, preRtPath);
             }
+
             return lst;
         }
     }
@@ -362,7 +359,7 @@ namespace FolderCompare
         [XmlAttribute("created")]
         public string created { get; set; }
         [XmlElement("foldercomp")]
-        public foldercomp foldercomp { get; set; }
+        public List<foldercomp> foldercomps { get; set; }
     }
 
     public class foldercomp
@@ -374,7 +371,7 @@ namespace FolderCompare
         [XmlElement("filters")]
         public string filters { get; set; }
         [XmlElement("foldercomp")]
-        public foldercomp FolderComp { get; set; }
+        public List<foldercomp> foldercomps { get; set; }
         [XmlElement("filecomp")]
         public List<filecomp> filecomps { get; set; }
         [XmlElement("lt")]
