@@ -249,6 +249,9 @@ namespace FolderCompare
                         case "rtonly":
                             result = $"Only exists in {lst[i].RightNode.Path}";
                             break;
+                        case "same":
+                            result = "same";
+                            break;
                         default:
                             result = "Text files are different";
                             break;
