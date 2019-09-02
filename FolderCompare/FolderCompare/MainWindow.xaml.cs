@@ -31,6 +31,7 @@ namespace FolderCompare
 
         public MainWindow()
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
 
         }
@@ -152,7 +153,7 @@ namespace FolderCompare
                 msg = "generate xml file failed";
             }
             msg.Logger();
-            MessageBox.Show(msg);
+            _Loading.Visibility = Visibility.Collapsed;
         }
 
         private void Bg_DoWork(object sender, DoWorkEventArgs e)
@@ -196,6 +197,7 @@ namespace FolderCompare
                     MessageBox.Show("script does not exist");
                     return;
                 }
+                Dispatcher.Invoke(() => { _Loading.Visibility = Visibility.Visible; });
                 string script = files[0];
                 outFolder = Path.Combine(outFolder, DateTime.Now.ToString("yyyyMMddHHmmss") + ".xml");
                 ProcessStartInfo psi = new ProcessStartInfo

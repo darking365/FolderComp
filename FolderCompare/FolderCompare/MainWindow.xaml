@@ -7,54 +7,56 @@
         mc:Ignorable="d"
         Title="FolderCompare" Height="350" Width="525"
         Initialized="Main_Load">
-    <Grid>
-        <DockPanel HorizontalAlignment="Left" Height="300" LastChildFill="False" Margin="10,10,0,0" VerticalAlignment="Top" Width="497">
-            <Grid Width="487">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="121*"></ColumnDefinition>
-                    <ColumnDefinition Width="260*"></ColumnDefinition>
-                    <ColumnDefinition Width="106*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Label x:Name="label1" FontSize="13" FontWeight="Bold" Grid.Row="0" Content="Left Folder" Height="30" VerticalAlignment="Center" Width="79" HorizontalAlignment="Left"/>
-                <Label x:Name="label2" FontSize="13" FontWeight="Bold" Grid.Row="1" Content="Right Folder" Height="30" VerticalAlignment="Center" Width="79" HorizontalAlignment="Left"/>
-                <Label x:Name="label3" FontSize="13" FontWeight="Bold" Grid.Row="2" Content="Output File Folder" Height="30" VerticalAlignment="Center" Width="127" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
-                <Label x:Name="label4" FontSize="13" FontWeight="Bold" Grid.Row="3" Content="Output File Name" Height="30" VerticalAlignment="Center" Width="118" HorizontalAlignment="Left"/>
-                <TextBox x:Name="txt_lFolder" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32" Grid.Row="0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250" Margin="0,10,0,18" />
-                <TextBox x:Name="txt_rFolder" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32"  Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250"/>
-                <TextBox x:Name="txt_outFolder" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250"/>
-                <TextBox x:Name="lbl_fileName" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="342" Margin="0,14" Grid.ColumnSpan="2"/>
-                <Button x:Name="btn_run" Style="{DynamicResource MaterialDesignRaisedLightButton}" Content="Run" Click="btn_run_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.235,0.44"/>
-                <Button x:Name="btn_selL" Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Click="btn_selL_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="50,18,0,0" Grid.Row="0" VerticalAlignment="Top" Width="32" RenderTransformOrigin="0.505,-0.132" Height="29">
-                    <Viewbox Width="24" Height="24" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left">
-                        <Canvas Width="24" Height="24">
-                            <Path Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" Fill="Black" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="btn_selR" Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Click="btn_selR_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="50,18,0,0" Grid.Row="1"  VerticalAlignment="Top" Width="32" RenderTransformOrigin="0.505,-0.132" Height="29">
-                    <Viewbox Width="24" Height="24" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left">
-                        <Canvas Width="24" Height="24">
-                            <Path Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" Fill="Black" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="btn_selO" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"  Click="btn_selO_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="50,18,0,0" Grid.Row="2"  VerticalAlignment="Top" Width="32" RenderTransformOrigin="0.505,-0.132" Height="29">
-                    <Viewbox Width="24" Height="24" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
-                        <Canvas Width="24" Height="24">
-                            <Path Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" Fill="Black" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="btn_openfile" Style="{DynamicResource MaterialDesignRaisedLightButton}"  Content="Open Output File" Click="btn_openfile_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="100,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="150" RenderTransformOrigin="-0.235,0.44"/>
-            </Grid>
-
-        </DockPanel>
-    </Grid>
+    <DockPanel>
+        <Grid>
+            <DockPanel HorizontalAlignment="Left" Height="300" LastChildFill="False" Margin="10,10,0,0" VerticalAlignment="Top" Width="497">
+                <Grid Width="487">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="121*"></ColumnDefinition>
+                        <ColumnDefinition Width="260*"></ColumnDefinition>
+                        <ColumnDefinition Width="106*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label1" FontSize="13" FontWeight="Bold" Grid.Row="0" Content="Left Folder" Height="30" VerticalAlignment="Center" Width="79" HorizontalAlignment="Left"/>
+                    <Label x:Name="label2" FontSize="13" FontWeight="Bold" Grid.Row="1" Content="Right Folder" Height="30" VerticalAlignment="Center" Width="79" HorizontalAlignment="Left"/>
+                    <Label x:Name="label3" FontSize="13" FontWeight="Bold" Grid.Row="2" Content="Output File Folder" Height="30" VerticalAlignment="Center" Width="127" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                    <Label x:Name="label4" FontSize="13" FontWeight="Bold" Grid.Row="3" Content="Output File Name" Height="30" VerticalAlignment="Center" Width="118" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="txt_lFolder" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32" Grid.Row="0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250" Margin="0,10,0,18" />
+                    <TextBox x:Name="txt_rFolder" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32"  Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250"/>
+                    <TextBox x:Name="txt_outFolder" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32" Grid.Row="2" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="250"/>
+                    <TextBox x:Name="lbl_fileName" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="32" Grid.Row="3" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="342" Margin="0,14" Grid.ColumnSpan="2"/>
+                    <Button x:Name="btn_run" Style="{DynamicResource MaterialDesignRaisedLightButton}" Content="Run" Click="btn_run_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.235,0.44"/>
+                    <Button x:Name="btn_selL" Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Click="btn_selL_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="50,18,0,0" Grid.Row="0" VerticalAlignment="Top" Width="32" RenderTransformOrigin="0.505,-0.132" Height="29">
+                        <Viewbox Width="24" Height="24" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="btn_selR" Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Click="btn_selR_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="50,18,0,0" Grid.Row="1"  VerticalAlignment="Top" Width="32" RenderTransformOrigin="0.505,-0.132" Height="29">
+                        <Viewbox Width="24" Height="24" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="btn_selO" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"  Click="btn_selO_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="50,18,0,0" Grid.Row="2"  VerticalAlignment="Top" Width="32" RenderTransformOrigin="0.505,-0.132" Height="29">
+                        <Viewbox Width="24" Height="24" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="btn_openfile" Style="{DynamicResource MaterialDesignRaisedLightButton}"  Content="Open Output File" Click="btn_openfile_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="100,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="150" RenderTransformOrigin="-0.235,0.44"/>
+                    <local:Loading x:Name="_Loading" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2" />
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </Window>
