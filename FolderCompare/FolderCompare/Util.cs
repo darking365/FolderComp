@@ -194,16 +194,16 @@ namespace FolderCompare
                 List<string> headers = new List<string> { "Left Folder", "Right Folder" };
                 for (int m = 0; m < headers.Count; m++)
                 {
-                    ICell cell = header.CreateCell(m * 2);
+                    ICell cell = header.CreateCell(m * 3);
                     cell.SetCellValue(headers[m]);
                     cell.CellStyle = cellStyle;
-                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, m * 2, m * 2 + 1));
+                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, m * 3, m * 3 + 2));
                 }
 
                 IRow title = sheet.CreateRow(1);
                 title.HeightInPoints = 20;
                 cellStyle.Alignment = HorizontalAlignment.Left;
-                List<string> titles = new List<string> { "Path", "Filename", "Path", "FileName", "Comparision Result" };
+                List<string> titles = new List<string> { "Path", "Filename","Size(Byte)", "Path", "FileName","Size(Byte)", "Comparision Result" };
                 for (int j = 0; j < titles.Count; j++)
                 {
                     ICell cell = title.CreateCell(j);
@@ -217,8 +217,10 @@ namespace FolderCompare
                     IRow body = sheet.CreateRow(i + 2);
                     string lpath = string.Empty;
                     string lfile = "NA";
+                    string lsize = "NA";
                     string rpath = string.Empty;
                     string rfile = "NA";
+                    string rsize = "NA";
                     string result = "NA";
 
                     if (lst[i].LeftNode != null)
@@ -226,6 +228,7 @@ namespace FolderCompare
                         lpath = lst[i].LeftNode.Path;
                         lfile = lst[i].LeftNode.FileName;
                         result = lst[i].LeftNode.Result;
+                        lsize = lst[i].LeftNode.Size;
                     }
                     else
                     {
@@ -236,6 +239,7 @@ namespace FolderCompare
                         rpath = lst[i].RightNode.Path;
                         rfile = lst[i].RightNode.FileName;
                         result = lst[i].RightNode.Result;
+                        rsize = lst[i].RightNode.Size;
                     }
                     else
                     {
@@ -258,9 +262,11 @@ namespace FolderCompare
                     }
                     body.CreateCell(0).SetCellValue(lpath);
                     body.CreateCell(1).SetCellValue(lfile);
-                    body.CreateCell(2).SetCellValue(rpath);
-                    body.CreateCell(3).SetCellValue(rfile);
-                    body.CreateCell(4).SetCellValue(result);
+                    body.CreateCell(2).SetCellValue(lsize);
+                    body.CreateCell(3).SetCellValue(rpath);
+                    body.CreateCell(4).SetCellValue(rfile);
+                    body.CreateCell(5).SetCellValue(rsize);
+                    body.CreateCell(6).SetCellValue(result);
                 }
                 #endregion
 
@@ -306,7 +312,8 @@ namespace FolderCompare
                         {
                             Path = preLtPath,
                             FileName = f.lt.name,
-                            Result = f.status
+                            Result = f.status,
+                            Size=f.lt.size
                         };
                         level.LeftNode = lnode;
                     }
@@ -316,7 +323,8 @@ namespace FolderCompare
                         {
                             Path = preRtPath,
                             FileName = f.rt.name,
-                            Result = f.status
+                            Result = f.status,
+                            Size=f.rt.size
                         };
                         level.RightNode = rnode;
                     }
@@ -430,5 +438,6 @@ namespace FolderCompare
         public string Path { get; set; }
         public string FileName { get; set; }
         public string Result { get; set; }
+        public string Size { get; set; }
     }
 }
