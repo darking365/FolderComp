@@ -254,7 +254,14 @@ namespace FolderCompare
                             result = $"Only exists in {lst[i].RightNode.Path}";
                             break;
                         case "same":
-                            result = "same";
+                            if (lsize.Equals(rsize))
+                            {
+                                result = "same";
+                            }
+                            else
+                            {
+                                result = "same text but different size";
+                            }
                             break;
                         default:
                             result = "Text files are different";
