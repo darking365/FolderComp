@@ -191,7 +191,6 @@ namespace FolderCompare
                 font.FontHeightInPoints = 12;
                 font.FontName = "Arial Unicode MS";
                 cellStyle.SetFont(font);
-                sheet.SetColumnWidth(0, 256);
                 #region header settings
                 IRow first = sheet.CreateRow(0);
                 ICell fst_cell = first.CreateCell(0);
@@ -330,6 +329,7 @@ namespace FolderCompare
                     body.CreateCell(5).SetCellValue(rsize);
                     body.CreateCell(6).SetCellValue(result);
                 }
+                SetColumnWidth(sheet, titles.Count);
                 #endregion
 
                 using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
@@ -345,6 +345,44 @@ namespace FolderCompare
                 workBook.Close();
             }
             return isSuccess;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="columnCount"></param>
+        private static void SetColumnWidth(ISheet sheet, int columnCount)
+        {
+            #region set column width
+            for (int columnNum = 0; columnNum <= columnCount; columnNum++)
+            {
+                int columnWidth = sheet.GetColumnWidth(columnNum) / 256;
+                for (int rowNum = 0; rowNum <= sheet.LastRowNum; rowNum++)
+                {
+                    IRow currentRow;
+                    if (sheet.GetRow(rowNum) == null)
+                    {
+                        currentRow = sheet.CreateRow(rowNum);
+                    }
+                    else
+                    {
+                        currentRow = sheet.GetRow(rowNum);
+                    }
+
+                    if (currentRow.GetCell(columnNum) != null)
+                    {
+                        ICell currentCell = currentRow.GetCell(columnNum);
+                        int length = Encoding.Default.GetBytes(currentCell.ToString()).Length;
+                        if (columnWidth < length)
+                        {
+                            columnWidth = length + 3;
+                        }
+                    }
+                }
+                sheet.SetColumnWidth(columnNum, columnWidth * 256);
+            }
+            #endregion
         }
 
         public static List<Level> GetResult(bcreport report)
