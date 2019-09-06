@@ -172,8 +172,10 @@ namespace FolderCompare
         /// </summary>
         /// <param name="lst"></param>
         /// <param name="fileName"></param>
+        /// <param name="lFolder"></param>
+        /// <param name="rFolder"></param>
         /// <returns></returns>
-        public static bool Export(List<Level> lst, string fileName)
+        public static bool Export(List<Level> lst, string fileName,string lFolder,string rFolder)
         {
             bool isSuccess = false;
             XSSFWorkbook workBook = new XSSFWorkbook();
@@ -182,39 +184,92 @@ namespace FolderCompare
             {
                 //add header style
                 ICellStyle cellStyle = workBook.CreateCellStyle();
-                cellStyle.Alignment = HorizontalAlignment.Center;
+                cellStyle.Alignment = HorizontalAlignment.Left;
                 cellStyle.VerticalAlignment = VerticalAlignment.Center;
                 IFont font = workBook.CreateFont();
-                font.Boldweight = (Int16)FontBoldWeight.Bold;
+                font.Boldweight = (short)FontBoldWeight.Bold;
                 font.FontHeightInPoints = 12;
+                font.FontName = "Arial Unicode MS";
                 cellStyle.SetFont(font);
-                //header settings
-                IRow header = sheet.CreateRow(0);
-                header.HeightInPoints = 35;
-                List<string> headers = new List<string> { "Left Folder", "Right Folder" };
-                for (int m = 0; m < headers.Count; m++)
+                sheet.SetColumnWidth(0, 256);
+                #region header settings
+                IRow first = sheet.CreateRow(0);
+                ICell fst_cell = first.CreateCell(0);
+                fst_cell.SetCellValue("Quarterly Source Code Comparison and Retrofit ");
+                fst_cell.CellStyle = cellStyle;
+
+                IRow second = sheet.CreateRow(1);
+
+                IRow third = sheet.CreateRow(2);
+                third.CreateCell(0).SetCellValue("Date:");
+
+                string[,] arr = new string[2, 4] { { "GIT Version:", "", "Source Path(L):", lFolder }, { "Production Version:", "", "Source Path(R):", rFolder } };
+                for (int i = 0; i < 2; i++)
                 {
-                    ICell cell = header.CreateCell(m * 3);
-                    cell.SetCellValue(headers[m]);
-                    cell.CellStyle = cellStyle;
-                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, m * 3, m * 3 + 2));
+                    IRow forth_fifth = sheet.CreateRow(i + 3);
+                    for (int j = 0; j < 4; j++)
+                    {
+                        forth_fifth.CreateCell(j).SetCellValue(arr[i, j]);
+                    }
                 }
 
-                IRow title = sheet.CreateRow(1);
-                title.HeightInPoints = 20;
-                cellStyle.Alignment = HorizontalAlignment.Left;
-                List<string> titles = new List<string> { "Path", "Filename","Size(Byte)", "Path", "FileName","Size(Byte)", "Comparision Result" };
+                IRow sixth = sheet.CreateRow(5);
+
+                IRow header = sheet.CreateRow(6);
+                header.HeightInPoints = 12;
+                List<string> headers = new List<string> { "Production Version", "GIT Version","" };
+                ICellStyle cs = workBook.CreateCellStyle();
+                cs.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Grey25Percent.Index;
+                cs.FillPattern = FillPattern.SolidForeground;
+                cs.Alignment = HorizontalAlignment.Center;
+                cs.VerticalAlignment = VerticalAlignment.Center;
+                cs.SetFont(font);
+                cs.BorderTop = BorderStyle.Thin;
+                cs.BorderRight = BorderStyle.Thin;
+                cs.BorderBottom = BorderStyle.Thin;
+                cs.BorderLeft = BorderStyle.Thin;
+
+                for (int m = 0; m < headers.Count; m++)
+                {
+                    CellRangeAddress region = new CellRangeAddress(6, 6, m * 3, m * 3 + 2);
+                    sheet.AddMergedRegion(region);
+                    for (int n = 0; n < 3; n++)
+                    {
+                        ICell cell = header.CreateCell(3 * m + n);
+                        cell.SetCellValue(headers[m]);
+                        cell.CellStyle = cs;
+                    }
+                }
+
+                IRow title = sheet.CreateRow(7);
+                title.HeightInPoints = 12;
+                ICellStyle titleStyle = workBook.CreateCellStyle();
+                titleStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Grey25Percent.Index;
+                titleStyle.FillPattern = FillPattern.SolidForeground;
+                titleStyle.Alignment = HorizontalAlignment.Left;
+                titleStyle.VerticalAlignment = VerticalAlignment.Center;
+                titleStyle.SetFont(font);
+                titleStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Grey25Percent.Index;
+                titleStyle.FillPattern = FillPattern.SolidForeground;
+                List<string> titles = new List<string> { "Path", "Filename", "Size(Byte)", "Path", "FileName", "Size(Byte)", "Comparision Result","Check-in GIT","Need Check","Remark"};
                 for (int j = 0; j < titles.Count; j++)
                 {
                     ICell cell = title.CreateCell(j);
                     cell.SetCellValue(titles[j]);
-                    cell.CellStyle = cellStyle;
-                }
+                    cell.CellStyle = titleStyle;
+                } 
+                #endregion
+
+
+                sheet.SetAutoFilter(new CellRangeAddress(8, 8, 0, titles.Count-2)); //line filter
+                sheet.CreateFreezePane(0, 8); //line freeze
+
+
                 #region body
                 for (int i = 0; i < lst.Count; i++)
                 {
                     sheet.AutoSizeColumn(i);
-                    IRow body = sheet.CreateRow(i + 2);
+                    IRow body = sheet.CreateRow(i + 8);
                     string lpath = string.Empty;
                     string lfile = "NA";
                     string lsize = "NA";

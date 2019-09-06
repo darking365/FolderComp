@@ -53,7 +53,7 @@
                             </Canvas>
                         </Viewbox>
                     </Button>
-                    <Button x:Name="btn_openfile" Style="{DynamicResource MaterialDesignRaisedLightButton}"  Content="Open Output File" Click="btn_openfile_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="100,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="150" RenderTransformOrigin="-0.235,0.44"/>
+                    <Button x:Name="btn_openfile" IsEnabled="False" Style="{DynamicResource MaterialDesignRaisedLightButton}"  Content="Open Output File" Click="btn_openfile_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="100,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="150" RenderTransformOrigin="-0.235,0.44"/>
                     <local:Loading x:Name="_Loading" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2" />
                 </Grid>
             </DockPanel>

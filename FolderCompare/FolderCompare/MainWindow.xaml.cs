@@ -132,7 +132,7 @@ namespace FolderCompare
                 {
                     var lst = Util.GetResult(model);
                     string xls = Path.Combine(filePath, $"{fileName}_{fName}.xlsx");
-                    if (Util.Export(lst, xls))
+                    if (Util.Export(lst, xls,lFolder,rFolder))
                     {
                         txt_outFolder.Text = filePath;
                         lbl_fileName.Text = xls;
